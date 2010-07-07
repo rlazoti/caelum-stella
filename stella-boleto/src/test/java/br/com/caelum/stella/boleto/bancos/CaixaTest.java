@@ -94,4 +94,24 @@ public class CaixaTest {
     public void testGetImage() {
         assertNotNull(this.banco.getImage());
     }
+
+    @Test
+    public void testLegendaCarteiraCobrancaRapidaDoEmissor() {
+        this.emissor = Emissor.newEmissor().withCarteira(Integer.parseInt(Caixa.CARTEIRA_COBRANCA_RAPIDA));
+        String legendaCarteira = this.banco.getLegendaCarteiraDoEmissor(this.emissor);
+        assertEquals(Caixa.LEGENDA_CARTEIRA_COBRANCA_RAPIDA, legendaCarteira);
+    }
+
+    @Test
+    public void testLegendaCarteiraCobrancaSemRegistroDoEmissor() {
+        this.emissor = Emissor.newEmissor().withCarteira(Integer.parseInt(Caixa.CARTEIRA_COBRANCA_SEM_REGISTRO));
+        String legendaCarteira = this.banco.getLegendaCarteiraDoEmissor(this.emissor);
+        assertEquals(Caixa.LEGENDA_CARTEIRA_COBRANCA_SEM_REGISTRO, legendaCarteira);
+    }
+
+    @Test
+    public void testNumeroDoBancoComDigitoFormatado() {
+        assertEquals("104-0", this.banco.getNumeroComDigitoFormatado());
+    }
+
 }

@@ -130,12 +130,48 @@ public class BoletoTest {
     }
 
     @Test
-    public void numeroDoDocumentoFormatadoDeveTerQuatroDigitos() {
+    public void numeroDoDocumentoFormatadoContentoApenasNumerosDeveTerQuatroDigitos() {
         Boleto b = Boleto.newBoleto();
         b.withNoDocumento("232");
         String numeroFormatado = b.getNoDocumentoFormatado();
         assertEquals(4, numeroFormatado.length());
         assertEquals("0232", numeroFormatado);
+    }
+
+    @Test
+    public void numeroDoDocumentoFormatadoContentoCaracteresDeveTerSeuProprioTamanhoEmDigitos() {
+        Boleto b = Boleto.newBoleto();
+        b.withNoDocumento("232-ABC");
+        String numeroFormatado = b.getNoDocumentoFormatado();
+        assertEquals(7, numeroFormatado.length());
+        assertEquals("232-ABC", numeroFormatado);
+    }
+
+    @Test
+    public void numeroDoDocumentoFormatadoDefinindoSeuTamanhoContentoApenasNumerosDeveTerTamanhoPreDefinido() {
+        Boleto b = Boleto.newBoleto();
+        b.withNoDocumento("232");
+        String numeroFormatado = b.getNoDocumentoFormatado(8);
+        assertEquals(8, numeroFormatado.length());
+        assertEquals("00000232", numeroFormatado);
+    }
+
+    @Test
+    public void numeroDoDocumentoFormatadoDefinindoSeuTamanhoContentoCaracteresDeveTerTamanhoPreDefinidoMenor() {
+        Boleto b = Boleto.newBoleto();
+        b.withNoDocumento("232-ABC");
+        String numeroFormatado = b.getNoDocumentoFormatado(6);
+        assertEquals(6, numeroFormatado.length());
+        assertEquals("232-AB", numeroFormatado);
+    }
+
+    @Test
+    public void numeroDoDocumentoFormatadoDefinindoSeuTamanhoContentoCaracteresDeveTerTamanhoPreDefinidoMaior() {
+        Boleto b = Boleto.newBoleto();
+        b.withNoDocumento("232-ABC");
+        String numeroFormatado = b.getNoDocumentoFormatado(10);
+        assertEquals(10, numeroFormatado.length());
+        assertEquals("   232-ABC", numeroFormatado);
     }
 
     @Test(expected = IllegalArgumentException.class)

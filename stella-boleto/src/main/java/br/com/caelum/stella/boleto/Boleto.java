@@ -44,8 +44,7 @@ public class Boleto {
      *
      */
     public static Boleto newBoleto() {
-        return new Boleto().withEspecieMoeda("R$").withCodEspecieMoeda(9)
-                .withAceite(false).withEspecieDocumento("DV");
+        return new Boleto().withEspecieMoeda("R$").withCodEspecieMoeda(9).withAceite(false).withEspecieDocumento("DV");
     }
 
     /**
@@ -311,8 +310,7 @@ public class Boleto {
      */
     public Boleto withInstrucoes(String... instrucoes) {
         if (instrucoes.length > 5) {
-            throw new IllegalArgumentException(
-                    "maximo de 5 instrucoes permitidas");
+            throw new IllegalArgumentException("maximo de 5 instrucoes permitidas");
         }
         this.instrucoes = Arrays.asList(instrucoes);
         return this;
@@ -336,8 +334,7 @@ public class Boleto {
      */
     public Boleto withDescricoes(String... descricoes) {
         if (descricoes.length > 5) {
-            throw new IllegalArgumentException(
-                    "maximo de 5 descricoes permitidas");
+            throw new IllegalArgumentException("maximo de 5 descricoes permitidas");
         }
         this.descricoes = Arrays.asList(descricoes);
         return this;
@@ -360,8 +357,7 @@ public class Boleto {
      */
     public Boleto withLocaisDePagamento(String... locaisDePagamento) {
         if (locaisDePagamento.length > 2) {
-            throw new IllegalArgumentException(
-                    "maximo de 2 locais de pagamento permitidos");
+            throw new IllegalArgumentException("maximo de 2 locais de pagamento permitidos");
         }
         this.locaisDePagamento = Arrays.asList(locaisDePagamento);
         return this;
@@ -384,21 +380,16 @@ public class Boleto {
         dataBase.set(Calendar.MILLISECOND, 0);
 
         Calendar vencimentoSemHoras = Calendar.getInstance();
-        vencimentoSemHoras.set(Calendar.DAY_OF_MONTH, this.datas
-                .getVencimento().get(Calendar.DAY_OF_MONTH));
-        vencimentoSemHoras.set(Calendar.MONTH, this.datas.getVencimento().get(
-                Calendar.MONTH));
-        vencimentoSemHoras.set(Calendar.YEAR, this.datas.getVencimento().get(
-                Calendar.YEAR));
+        vencimentoSemHoras.set(Calendar.DAY_OF_MONTH, this.datas.getVencimento().get(Calendar.DAY_OF_MONTH));
+        vencimentoSemHoras.set(Calendar.MONTH, this.datas.getVencimento().get(Calendar.MONTH));
+        vencimentoSemHoras.set(Calendar.YEAR, this.datas.getVencimento().get(Calendar.YEAR));
         vencimentoSemHoras.set(Calendar.HOUR_OF_DAY, 0);
         vencimentoSemHoras.set(Calendar.MINUTE, 0);
         vencimentoSemHoras.set(Calendar.SECOND, 0);
         vencimentoSemHoras.set(Calendar.MILLISECOND, 0);
 
-        long diferencasEmMiliSegundos = vencimentoSemHoras.getTimeInMillis()
-                - dataBase.getTimeInMillis();
-        long diferencasEmDias = diferencasEmMiliSegundos
-                / (1000 * 60 * 60 * 24);
+        long diferencasEmMiliSegundos = vencimentoSemHoras.getTimeInMillis() - dataBase.getTimeInMillis();
+        long diferencasEmDias = diferencasEmMiliSegundos / (1000 * 60 * 60 * 24);
 
         if (diferencasEmDias > 9999) {
             throw new CriacaoBoletoException("Data fora do formato aceito!");
@@ -413,37 +404,43 @@ public class Boleto {
      * @return
      */
     public String getValorFormatado() {
-        return String.format("%011.2f", this.valorBoleto).replaceAll("[^0-9]",
-                "");
+        return String.format("%011.2f", this.valorBoleto).replaceAll("[^0-9]", "");
     }
 
     /**
-     * Devolve o número do documento formatado (com 4 digitos) caso ele contenha apenas números,
-     * caso tenha outros caracteres será considerado seu tamanho total.
+     * Devolve o número do documento formatado (com 4 digitos) caso ele contenha
+     * apenas números, caso tenha outros caracteres será considerado seu tamanho
+     * total.
      *
      * @return
      */
     public String getNoDocumentoFormatado() {
-    	if (this.noDocumento == null) {
-    		return null;
-    	}
-    	else if (StringUtils.isNumeric(this.noDocumento)) {
-    			return getNoDocumentoFormatado(4);
-    	}
-    	else {
-    		return getNoDocumentoFormatado(this.noDocumento.length());
-    	}
+        if (this.noDocumento == null) {
+            return null;
+        } else if (StringUtils.isNumeric(this.noDocumento)) {
+            return getNoDocumentoFormatado(4);
+        } else {
+            return getNoDocumentoFormatado(this.noDocumento.length());
+        }
     }
 
     /**
-     * Devolve o número do documento formatado com a quantidade de dígitos especificado pelo parâmetro tamanho.
-     * O método formata tanto conteúdo com apenas números como com outros caracteres.
+     * Devolve o número do documento formatado com a quantidade de dígitos
+     * especificado pelo parâmetro tamanho. O método formata tanto conteúdo com
+     * apenas números como com outros caracteres.
+     * Caso o conteúdo seja texto e o tamanho informado seja maior que o conteúdo do número do documento,
+     * o resultado esperado irá conter espaços em branco antes do valor do número do documento.
+     *
      * @param tamanho
      * @return
      */
     public String getNoDocumentoFormatado(int tamanho) {
-    		String formato = "%" + ((StringUtils.isNumeric(this.noDocumento)) ? "0" + tamanho + "d" : tamanho + "s");
-    		return String.format(formato, ((StringUtils.isNumeric(this.noDocumento)) ? Long.parseLong(this.noDocumento) : this.noDocumento));
+        String formato = "%" + ((StringUtils.isNumeric(this.noDocumento)) ? "0" + tamanho + "d" : tamanho + "s");
+        return String.format(
+                formato,
+                ((StringUtils.isNumeric(this.noDocumento)) ? Long.parseLong(this.noDocumento)
+                        : (this.noDocumento != null && this.noDocumento.length() > tamanho) ? this.noDocumento
+                                .substring(0, tamanho) : this.noDocumento));
     }
 
 }
