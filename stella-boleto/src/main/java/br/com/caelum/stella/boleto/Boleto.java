@@ -6,12 +6,14 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Bean que representa os dados de um boleto.
- * 
+ *
  * @author Paulo Silveira
  * @author Caue Guerra
- * 
+ *
  */
 public class Boleto {
 
@@ -39,7 +41,7 @@ public class Boleto {
 
     /**
      * Cria um novo boleto com valores padrão.
-     * 
+     *
      */
     public static Boleto newBoleto() {
         return new Boleto().withEspecieMoeda("R$").withCodEspecieMoeda(9)
@@ -48,7 +50,7 @@ public class Boleto {
 
     /**
      * Devolve o aceite do boleto Valor padrão: 'N'
-     * 
+     *
      * @return
      */
     public boolean getAceite() {
@@ -57,7 +59,7 @@ public class Boleto {
 
     /**
      * Associa o aceite ao boleto. Valor padrão: 'N'
-     * 
+     *
      * @param aceite
      */
     public Boleto withAceite(boolean aceite) {
@@ -67,7 +69,7 @@ public class Boleto {
 
     /**
      * Devolve as datas do boleto
-     * 
+     *
      * @return
      */
     public Datas getDatas() {
@@ -76,9 +78,9 @@ public class Boleto {
 
     /**
      * Associa datas ao boleto
-     * 
+     *
      * @param datas
-     * 
+     *
      */
     public Boleto withDatas(Datas datas) {
         this.datas = datas;
@@ -87,7 +89,7 @@ public class Boleto {
 
     /**
      * Devolve a espécie do documento do boleto. Valor padrão: "DV"
-     * 
+     *
      * @return
      */
     public String getEspecieDocumento() {
@@ -96,7 +98,7 @@ public class Boleto {
 
     /**
      * Associa a espécie do documento ao boleto. Valor padrão: "DV"
-     * 
+     *
      * @param especieDocumento
      */
     public Boleto withEspecieDocumento(String especieDocumento) {
@@ -106,7 +108,7 @@ public class Boleto {
 
     /**
      * Devolve o número do documento. Código informado pelo banco.
-     * 
+     *
      * @return
      */
     public String getNoDocumento() {
@@ -115,7 +117,7 @@ public class Boleto {
 
     /**
      * Associa o número do documento ao boleto Código informado pelo banco.
-     * 
+     *
      * @param noDocumento
      */
     public Boleto withNoDocumento(String noDocumento) {
@@ -125,7 +127,7 @@ public class Boleto {
 
     /**
      * Devolve a quantidade da moeda
-     * 
+     *
      * @return
      */
     public BigDecimal getQtdMoeda() {
@@ -134,7 +136,7 @@ public class Boleto {
 
     /**
      * Associa a quantidade de moeda ao boleto
-     * 
+     *
      * @param qtdMoeda
      * @return
      */
@@ -153,7 +155,7 @@ public class Boleto {
     /**
      * Associa um valor ao boleto, convertendo a String para BigDecimal
      * utilizando o Locale da JVM
-     * 
+     *
      * @param valorBoleto
      * @return
      */
@@ -175,7 +177,7 @@ public class Boleto {
 
     /**
      * Devolve a espécie da moeda. Valor padrão: "R$"
-     * 
+     *
      * @return
      */
     public String getEspecieMoeda() {
@@ -184,7 +186,7 @@ public class Boleto {
 
     /**
      * Associa uma espécie de moeda ao boleto. Valor padrão: "R$"
-     * 
+     *
      * @param especieMoeda
      * @return
      */
@@ -195,7 +197,7 @@ public class Boleto {
 
     /**
      * Devolve o código da espécie da moeda. Valor padrão: '9' (para R$)
-     * 
+     *
      * @return
      */
     public int getCodEspecieMoeda() {
@@ -205,7 +207,7 @@ public class Boleto {
     /**
      * Associa um código da espécie da moeda ao boleto. Valor padrão: '9' (para
      * R$)
-     * 
+     *
      * @param codEspecieMoeda
      * @return
      */
@@ -216,7 +218,7 @@ public class Boleto {
 
     /**
      * Devolve o valor da moeda, format
-     * 
+     *
      * @return
      */
     public BigDecimal getValorMoeda() {
@@ -225,7 +227,7 @@ public class Boleto {
 
     /**
      * Associa um valor de moeda ao boleto
-     * 
+     *
      */
     public Boleto withValorMoeda(BigDecimal valorMoeda) {
         this.valorMoeda = valorMoeda;
@@ -234,7 +236,7 @@ public class Boleto {
 
     /**
      * Devolve o banco do boleto
-     * 
+     *
      * @return
      */
     public Banco getBanco() {
@@ -243,7 +245,7 @@ public class Boleto {
 
     /**
      * Associa um banco ao boleto
-     * 
+     *
      * @param banco
      * @return
      */
@@ -254,7 +256,7 @@ public class Boleto {
 
     /**
      * Devolve o sacado do banco
-     * 
+     *
      * @return
      */
     public Sacado getSacado() {
@@ -263,7 +265,7 @@ public class Boleto {
 
     /**
      * Associa um sacado ao banco
-     * 
+     *
      * @param sacado
      * @return
      */
@@ -274,7 +276,7 @@ public class Boleto {
 
     /**
      * Devolve o emissor do boleto
-     * 
+     *
      * @return
      */
     public Emissor getEmissor() {
@@ -283,7 +285,7 @@ public class Boleto {
 
     /**
      * Associa um sacado ao boleto
-     * 
+     *
      * @param emissor
      * @return
      */
@@ -294,7 +296,7 @@ public class Boleto {
 
     /**
      * Devolve as instruções do boleto
-     * 
+     *
      * @return
      */
     public List<String> getInstrucoes() {
@@ -303,7 +305,7 @@ public class Boleto {
 
     /**
      * Associa instruções ao boleto
-     * 
+     *
      * @param instrucoes
      * @return
      */
@@ -319,7 +321,7 @@ public class Boleto {
     /**
      * Devolve as descrições do boleto. Note que esse campo não aparece no
      * boleto gerado em PNG
-     * 
+     *
      * @return
      */
     public List<String> getDescricoes() {
@@ -329,7 +331,7 @@ public class Boleto {
     /**
      * Associa as descrições ao boleto. Note que esse campo não aparece no
      * boleto gerado em PNG
-     * 
+     *
      * @return
      */
     public Boleto withDescricoes(String... descricoes) {
@@ -343,7 +345,7 @@ public class Boleto {
 
     /**
      * Devolve os locais de pagamento do boleto
-     * 
+     *
      * @return
      */
     public List<String> getLocaisDePagamento() {
@@ -352,7 +354,7 @@ public class Boleto {
 
     /**
      * Associa locais de pagamento ao boleto
-     * 
+     *
      * @param locaisDePagamento
      * @return
      */
@@ -368,7 +370,7 @@ public class Boleto {
     /**
      * Devolve o fator de vencimento do boleto. Utilizado para geração do código
      * de barras e da linha digitável
-     * 
+     *
      * @return
      */
     public String getFatorVencimento() {
@@ -407,7 +409,7 @@ public class Boleto {
 
     /**
      * Devolve o valor do boleto formatado (com 10 digitos)
-     * 
+     *
      * @return
      */
     public String getValorFormatado() {
@@ -416,11 +418,32 @@ public class Boleto {
     }
 
     /**
-     * Devolve o número do documento formatado (com 4 digitos)
-     * 
+     * Devolve o número do documento formatado (com 4 digitos) caso ele contenha apenas números,
+     * caso tenha outros caracteres será considerado seu tamanho total.
+     *
      * @return
      */
     public String getNoDocumentoFormatado() {
-        return String.format("%04d", Integer.parseInt(this.noDocumento));
+    	if (this.noDocumento == null) {
+    		return null;
+    	}
+    	else if (StringUtils.isNumeric(this.noDocumento)) {
+    			return getNoDocumentoFormatado(4);
+    	}
+    	else {
+    		return getNoDocumentoFormatado(this.noDocumento.length());
+    	}
     }
+
+    /**
+     * Devolve o número do documento formatado com a quantidade de dígitos especificado pelo parâmetro tamanho.
+     * O método formata tanto conteúdo com apenas números como com outros caracteres.
+     * @param tamanho
+     * @return
+     */
+    public String getNoDocumentoFormatado(int tamanho) {
+    		String formato = "%" + ((StringUtils.isNumeric(this.noDocumento)) ? "0" + tamanho + "d" : tamanho + "s");
+    		return String.format(formato, ((StringUtils.isNumeric(this.noDocumento)) ? Long.parseLong(this.noDocumento) : this.noDocumento));
+    }
+
 }

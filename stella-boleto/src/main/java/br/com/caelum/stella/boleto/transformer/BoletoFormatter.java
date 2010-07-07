@@ -1,23 +1,19 @@
 package br.com.caelum.stella.boleto.transformer;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.Calendar;
-
-import javax.swing.text.NumberFormatter;
-
-import br.com.caelum.stella.boleto.CriacaoBoletoException;
+import java.util.Locale;
 
 /**
- * Classe que serve apenas para centralizar alguns metodos comuns na gera��o dos
+ * Classe que serve apenas para centralizar alguns metodos comuns na geração dos
  * boletos.
- * 
+ *
  * @author Alberto
- * 
+ *
  */
 class BoletoFormatter {
 
-    private static final NumberFormatter formatter = new NumberFormatter(new DecimalFormat("#,##0.00"));
+    private static final Locale locale = new Locale("pt","BR");
+
     private static final String datePattern = "%1$td/%1$tm/%1$tY";
 
     static String formatDate(final Calendar date) {
@@ -25,10 +21,6 @@ class BoletoFormatter {
     }
 
     static String formatValue(final double value) {
-        try {
-            return formatter.valueToString(value);
-        } catch (ParseException e) {
-            throw new CriacaoBoletoException("Erro na formata��o do valor", e);
-        }
+    	return String.format(locale, "%1$,.2f", value);
     }
 }

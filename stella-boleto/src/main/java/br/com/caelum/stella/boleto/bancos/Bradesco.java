@@ -7,17 +7,17 @@ import br.com.caelum.stella.boleto.Emissor;
 
 /**
  * Gera dados de um boleto relativos ao Banco Bradesco.
- * 
+ *
  * @see <a *
  *      href="http://stella.caelum.com.br/boleto-setup.html">http://stella.caelum
  *      * .com.br/boleto-setup.html< /a>
- * 
+ *
  * @see <a * href=
  *      "http://www.bradesco.com.br/br/pj/conteudo/sol_rec/pdf/manualtecnico.pdf"
  *      >MANUAL * DO BLOQUETO DE COBRANÇA< /a>
- * 
+ *
  * @author Leonardo Bessa
- * 
+ *
  */
 public class Bradesco implements Banco {
 
@@ -39,7 +39,7 @@ public class Bradesco implements Banco {
         // CAMPO LIVRE
         codigoDeBarras.append(emissor.getAgenciaFormatado());
         codigoDeBarras.append(getCarteiraDoEmissorFormatado(emissor));
-        codigoDeBarras.append(getNossoNumeroDoEmissorFormatado(emissor));
+        codigoDeBarras.append(getSomenteNossoNumeroDoEmissorFormatado(emissor));
         codigoDeBarras.append(getContaCorrenteDoEmissorFormatado(emissor));
         codigoDeBarras.append("0");
 
@@ -78,8 +78,24 @@ public class Bradesco implements Banco {
         return String.format("%02d", emissor.getCarteira());
     }
 
-    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+    public String getSomenteNossoNumeroDoEmissorFormatado(Emissor emissor) {
         return String.format("%011d", emissor.getNossoNumero());
     }
+
+    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+				return getSomenteNossoNumeroDoEmissorFormatado(emissor);
+		}
+
+    public String getNumeroComDigitoFormatado() {
+				return getNumeroFormatado();
+		}
+
+		public String getLegendaCarteiraDoEmissor(Emissor emissor) {
+				return getCarteiraDoEmissorFormatado(emissor);
+		}
+
+		public String getAgenciaCodigoCedenteFormatado(Emissor emissor) {
+				throw new UnsupportedOperationException("Esse banco não possui esta informação disponível.");
+		}
 
 }

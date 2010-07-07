@@ -36,7 +36,7 @@ public class HSBC implements Banco {
            */
 
         int tipo = getTipoIdentificador(boleto);
-        long codigoDoDocumento = Long.parseLong(getNossoNumeroDoEmissorFormatado(boleto.getEmissor()));
+        long codigoDoDocumento = Long.parseLong(getSomenteNossoNumeroDoEmissorFormatado(boleto.getEmissor()));
         long codigo = Long.valueOf("" + codigoDoDocumento
                 + getPrimeiroDigitoVerificador(boleto)
                 + tipo);
@@ -71,7 +71,7 @@ public class HSBC implements Banco {
 
     private int getPrimeiroDigitoVerificador(Boleto boleto) {
         return dvGenerator
-                .geraDVMod11(getNossoNumeroDoEmissorFormatado(boleto.getEmissor()));
+                .geraDVMod11(getSomenteNossoNumeroDoEmissorFormatado(boleto.getEmissor()));
     }
 
     public String geraCodigoDeBarrasPara(Boleto boleto) {
@@ -96,7 +96,7 @@ public class HSBC implements Banco {
         /*
            * codigo do documento.
            */
-        codigoDeBarras.append(getNossoNumeroDoEmissorFormatado(boleto
+        codigoDeBarras.append(getSomenteNossoNumeroDoEmissorFormatado(boleto
                 .getEmissor()));
 
         /*
@@ -180,12 +180,28 @@ public class HSBC implements Banco {
                         getNumeroFormatado()));
     }
 
-    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+    public String getSomenteNossoNumeroDoEmissorFormatado(Emissor emissor) {
         return String.format("%013d", emissor.getNossoNumero());
+    }
+
+    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+				return getSomenteNossoNumeroDoEmissorFormatado(emissor);
     }
 
     public String getNumeroFormatado() {
         return HSBC.NUMERO_HSBC;
     }
+
+		public String getNumeroComDigitoFormatado() {
+				return getNumeroFormatado();
+		}
+
+		public String getLegendaCarteiraDoEmissor(Emissor emissor) {
+				return getCarteiraDoEmissorFormatado(emissor);
+		}
+
+		public String getAgenciaCodigoCedenteFormatado(Emissor emissor) {
+				throw new UnsupportedOperationException("Esse banco não possui esta informação disponível.");
+		}
 
 }

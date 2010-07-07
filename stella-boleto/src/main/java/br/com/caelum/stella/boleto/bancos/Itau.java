@@ -25,7 +25,7 @@ public class Itau implements Banco {
         Emissor emissor = boleto.getEmissor();
 
         codigoDeBarras.append(getCarteiraDoEmissorFormatado(emissor));
-        codigoDeBarras.append(getNossoNumeroDoEmissorFormatado(emissor));
+        codigoDeBarras.append(getSomenteNossoNumeroDoEmissorFormatado(emissor));
         // Digito Verificador sera inserido aqui.
 
         codigoDeBarras.append(emissor.getAgenciaFormatado());
@@ -67,12 +67,28 @@ public class Itau implements Banco {
                         getNumeroFormatado()));
     }
 
-    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+    public String getSomenteNossoNumeroDoEmissorFormatado(Emissor emissor) {
         return String.format("%08d", emissor.getNossoNumero());
+    }
+
+    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+    		return getSomenteNossoNumeroDoEmissorFormatado(emissor);
     }
 
     public String getNumeroFormatado() {
         return NUMERO_ITAU;
     }
+
+		public String getNumeroComDigitoFormatado() {
+				return getNumeroFormatado();
+		}
+
+		public String getLegendaCarteiraDoEmissor(Emissor emissor) {
+				return getCarteiraDoEmissorFormatado(emissor);
+		}
+
+		public String getAgenciaCodigoCedenteFormatado(Emissor emissor) {
+				throw new UnsupportedOperationException("Esse banco não possui esta informação disponível.");
+		}
 
 }

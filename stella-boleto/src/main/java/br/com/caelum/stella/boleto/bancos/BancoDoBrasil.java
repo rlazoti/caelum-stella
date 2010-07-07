@@ -7,14 +7,14 @@ import br.com.caelum.stella.boleto.Emissor;
 
 /**
  * Gera dados de um boleto relativos ao Banco do Brasil.
- * 
+ *
  * @see <a *
  *      href="http://stella.caelum.com.br/boleto-setup.html">http://stella.caelum
  *      * .com.br/boleto-setup.html< /a>
- * 
+ *
  * @author Cauê Guerra
  * @author Paulo Silveira
- * 
+ *
  */
 public class BancoDoBrasil implements Banco {
 
@@ -38,11 +38,11 @@ public class BancoDoBrasil implements Banco {
                 codigoDeBarras
                         .append(getNumConvenioDoEmissorFormatado(emissor));
                 codigoDeBarras
-                        .append(getNossoNumeroDoEmissorFormatado(emissor));
+                        .append(getSomenteNossoNumeroDoEmissorFormatado(emissor));
                 codigoDeBarras.append("21");
             } else {
                 codigoDeBarras
-                        .append(getNossoNumeroDoEmissorFormatado(emissor));
+                        .append(getSomenteNossoNumeroDoEmissorFormatado(emissor));
                 codigoDeBarras.append(emissor.getAgenciaFormatado());
                 codigoDeBarras.append(emissor.getCedente());
                 codigoDeBarras.append(boleto.getBanco()
@@ -51,7 +51,7 @@ public class BancoDoBrasil implements Banco {
         } else if (emissor.getCarteira() == 17 || emissor.getCarteira() == 18) {
             codigoDeBarras.append("000000");
             codigoDeBarras.append(getNumConvenioDoEmissorFormatado(emissor));
-            codigoDeBarras.append(getNossoNumeroDoEmissorFormatado(emissor)
+            codigoDeBarras.append(getSomenteNossoNumeroDoEmissorFormatado(emissor)
                     .substring(7));
             codigoDeBarras.append(boleto.getBanco()
                     .getCarteiraDoEmissorFormatado(emissor));
@@ -99,12 +99,28 @@ public class BancoDoBrasil implements Banco {
         return String.format("%02d", emissor.getCarteira());
     }
 
-    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+    public String getSomenteNossoNumeroDoEmissorFormatado(Emissor emissor) {
         if (emissor.getCarteira() == 18) {
             return String.format("%017d", emissor.getNossoNumero());
         } else {
             return String.format("%011d", emissor.getNossoNumero());
         }
     }
+
+		public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+			return getSomenteNossoNumeroDoEmissorFormatado(emissor);
+		}
+
+		public String getNumeroComDigitoFormatado() {
+				return getNumeroFormatado();
+		}
+
+		public String getLegendaCarteiraDoEmissor(Emissor emissor) {
+				return getCarteiraDoEmissorFormatado(emissor);
+		}
+
+		public String getAgenciaCodigoCedenteFormatado(Emissor emissor) {
+				throw new UnsupportedOperationException("Esse banco não possui esta informação disponível.");
+		}
 
 }

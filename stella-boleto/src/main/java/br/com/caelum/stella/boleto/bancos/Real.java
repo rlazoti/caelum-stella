@@ -28,7 +28,7 @@ public class Real implements Banco {
 
         codigoDeBarras.append(calculaDigitaoDeCobranca(emissor));
 
-        codigoDeBarras.append(getNossoNumeroDoEmissorFormatado(emissor));
+        codigoDeBarras.append(getSomenteNossoNumeroDoEmissorFormatado(emissor));
 
         codigoDeBarras.insert(4, this.dvGenerator.geraDVMod11(codigoDeBarras
                 .toString()));
@@ -38,13 +38,13 @@ public class Real implements Banco {
 
     /**
      * Calculo relacionado apenas ao Banco Real
-     * 
+     *
      * @param emissor
      * @return
      */
     private int calculaDigitaoDeCobranca(Emissor emissor) {
         return this.dvGenerator
-                .geraDVMod10(getNossoNumeroDoEmissorFormatado(emissor)
+                .geraDVMod10(getSomenteNossoNumeroDoEmissorFormatado(emissor)
                         + emissor.getAgenciaFormatado()
                         + getContaCorrenteDoEmissorFormatado(emissor));
     }
@@ -67,7 +67,24 @@ public class Real implements Banco {
         return String.format("%07d", emissor.getContaCorrente());
     }
 
-    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+    public String getSomenteNossoNumeroDoEmissorFormatado(Emissor emissor) {
         return String.format("%013d", emissor.getNossoNumero());
     }
+
+    public String getNossoNumeroDoEmissorFormatado(Emissor emissor) {
+				return getSomenteNossoNumeroDoEmissorFormatado(emissor);
+    }
+
+		public String getNumeroComDigitoFormatado() {
+				return getNumeroFormatado();
+		}
+
+		public String getLegendaCarteiraDoEmissor(Emissor emissor) {
+				return getCarteiraDoEmissorFormatado(emissor);
+		}
+
+		public String getAgenciaCodigoCedenteFormatado(Emissor emissor) {
+				throw new UnsupportedOperationException("Esse banco não possui esta informação disponível.");
+		}
+
 }
